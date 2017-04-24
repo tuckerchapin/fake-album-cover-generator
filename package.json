@@ -5,10 +5,12 @@
   "dependencies": {
     "jquery": "^3.2.1",
     "moment": "^2.18.1",
+    "random-google-font": "^0.1.2",
     "react": "^15.5.4",
     "react-dom": "^15.5.4"
   },
   "devDependencies": {
+    "gh-pages": "^0.12.0",
     "react-scripts": "0.9.5"
   },
   "scripts": {

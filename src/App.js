@@ -10,7 +10,7 @@ class App extends Component {
         this.state = {
             artist: "",
             title: "",
-            imageUrl: ""
+            imageUrl: "",
         };
 
         this.getEverything();
@@ -21,10 +21,6 @@ class App extends Component {
         let oneMonthAgo = Moment().subtract(1, 'months');
         return Moment(new Date(oneMonthAgo + Math.random() * (today - oneMonthAgo))).format('YYYY-MM-DD');
     }
-
-    // convertFlickrResponseToPhoto(photoObject) {
-    //     return "https://farm" + photoObject.farm + ".staticflickr.com/" + photoObject.server + "/" + photoObject.id + "_" + photoObject.secret + ".jpg";
-    // }
 
     getRandomArtist() {
         $.getJSON(
@@ -37,20 +33,42 @@ class App extends Component {
 
     getRandomTitle() {
         $.getJSON(
-            "https://en.wikipedia.org/w/api.php?action=query&generator=random&grnnamespace=0&format=json&origin=*",
-            (data) => this.setState({
-                title: Object.values(data.query.pages)[0].title
-            })
+            "https://en.wikiquote.org/w/api.php?action=query&prop=extracts&generator=random&grnnamespace=0&format=json&origin=*",
+            (data) => {
+                let titleToSet = "";
+                let parsedHTML = $.parseHTML(Object.values(data.query.pages)[0].extract);
+                // let counter = parsedHTML.length;
+                // while (counter >= 0) {
+                //     if (parsedHTML[--counter].nodeName == "UL") {
+                //         console.log(parsedHTML[counter].textContent.split("\n")[0]);
+                //         this.setState({title: parsedHTML[counter].textContent.split("\n")[0]})
+                //         break;
+                //     }
+                // }
+                let counter = 0;
+                while (counter < parsedHTML.length) {
+                    if (parsedHTML[counter].nodeName === "UL") {
+                        titleToSet = parsedHTML[counter].textContent.split(".")[0];
+                        break;
+                    }
+                    counter++;
+                }
+
+                if (titleToSet === "") {
+                    this.getRandomTitle();
+                } else {
+                    this.setState({title: titleToSet});
+                }
+            }
         );
     }
 
     getRandomArtwork() {
-        let url = "https://api.flickr.com/services/rest/?method=flickr.interestingness.getList&api_key=9d125f270ce02fcb7b1ebf033e981ea9&date=" + this.randomDateInLastMonth() + "&extras=url_l&per_page=1&format=json&nojsoncallback=1";
+        let url = "https://api.flickr.com/services/rest/?method=flickr.interestingness.getList&api_key=9d125f270ce02fcb7b1ebf033e981ea9&date=" + this.randomDateInLastMonth() + "&extras=url_l&per_page=10&format=json&nojsoncallback=1";
         $.getJSON(
             url,
             (data) => this.setState({
-                // imageUrl: this.convertFlickrResponseToPhoto(data.photos.photo[0])
-                imageUrl: data.photos.photo[0].url_l
+                imageUrl: data.photos.photo[Math.round(Math.random() * 10)].url_l
             })
         );
     }
@@ -61,7 +79,24 @@ class App extends Component {
         this.getRandomArtwork();
     }
 
+    isLoading() {
+        if (this.state.artist !== "" && this.state.title !== "" && this.state.imageUrl !== "") {
+            return false;
+        }
+        return true;
+    }
+
     render() {
+        if (this.isLoading()) {
+            return (
+                <div className="App">
+                    <div>
+                        Loading...
+                    </div>
+                </div>
+            );
+        }
+
         return (
             <div className="App">
                 Your artist:
@@ -72,7 +107,7 @@ class App extends Component {
                 <br/>
                 Your artwork:
                 <br/>
-                <img src={this.state.imageUrl}/>
+                <img src={this.state.imageUrl} alt=""/>
             </div>
         );
     }
