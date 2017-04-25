@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import $ from 'jquery';
-import Moment from 'moment'
+import Moment from 'moment';
+import Font from 'random-google-font';
 import './App.css';
 
 class App extends Component {
