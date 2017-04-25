@@ -80,7 +80,7 @@ class App extends Component {
         }
         this.askingForArtwork = true;
 
-        let url = "https://api.flickr.com/services/rest/?method=flickr.interestingness.getList&api_key=88d0928a8bfc1a485d479f4f120b28cf&date=" + this.getRandomDate() + "&extras=url_l,url_q&per_page=10&format=json&nojsoncallback=1";
+        let url = "https://api.flickr.com/services/rest/?method=flickr.interestingness.getList&api_key=88d0928a8bfc1a485d479f4f120b28cf&date=" + this.getRandomDate() + "&extras=url_l,url_q,url_o&per_page=10&format=json&nojsoncallback=1";
         $.getJSON(
             url,
             (data, err) => {
@@ -88,9 +88,9 @@ class App extends Component {
                     let photo = data.photos.photo[Math.round(Math.random() * 10)];
                     if (photo && "url_l" in photo && "url_q" in photo) {
                         this.setState({
-                            imageUrl: photo.url_l,
+                            imageUrl: photo.url_o || photo.url_l,
                             imageUrlSquare: photo.url_q,
-                            imageDims: "[" + photo.width_l + "x" + photo.height_l + "]"
+                            imageDims: "[" + (photo.width_o || photo.width_l) + "x" + (photo.height_o || photo.height_l) + "]"
                         });
                     } else {
                         this.getRandomArtwork();
