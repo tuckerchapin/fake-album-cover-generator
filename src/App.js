@@ -15,6 +15,8 @@ class App extends Component {
             length: this.getRandomTwoDigit(35, 122) + ":" + this.getRandomTwoDigit(0, 59),
         };
 
+        this.askingForArtwork = false;
+
         this.getEverything();
     }
 
@@ -66,6 +68,11 @@ class App extends Component {
     }
 
     getRandomArtwork() {
+        if (this.askingForArtwork) {
+            return;
+        }
+        this.askingForArtwork = true;
+
         let url = "https://api.flickr.com/services/rest/?method=flickr.interestingness.getList&api_key=9d125f270ce02fcb7b1ebf033e981ea9&date=" + this.getRandomDate() + "&extras=url_l,url_q&per_page=10&format=json&nojsoncallback=1";
         $.getJSON(
             url,
@@ -78,6 +85,7 @@ class App extends Component {
                             imageUrlSquare: photo.url_q,
                             imageDims: "[" + photo.width_l + "x" + photo.height_l + "]"
                         });
+                        this.askingForArtwork = false;
                     } else {
                         this.getRandomArtwork();
                     }
