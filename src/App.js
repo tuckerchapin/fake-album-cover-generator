@@ -37,14 +37,6 @@ class App extends Component {
             (data) => {
                 let titleToSet = "";
                 let parsedHTML = $.parseHTML(Object.values(data.query.pages)[0].extract);
-                // let counter = parsedHTML.length;
-                // while (counter >= 0) {
-                //     if (parsedHTML[--counter].nodeName == "UL") {
-                //         console.log(parsedHTML[counter].textContent.split("\n")[0]);
-                //         this.setState({title: parsedHTML[counter].textContent.split("\n")[0]})
-                //         break;
-                //     }
-                // }
                 let counter = 0;
                 while (counter < parsedHTML.length) {
                     if (parsedHTML[counter].nodeName === "UL") {
@@ -67,9 +59,16 @@ class App extends Component {
         let url = "https://api.flickr.com/services/rest/?method=flickr.interestingness.getList&api_key=9d125f270ce02fcb7b1ebf033e981ea9&date=" + this.randomDateInLastMonth() + "&extras=url_l&per_page=10&format=json&nojsoncallback=1";
         $.getJSON(
             url,
-            (data) => this.setState({
-                imageUrl: data.photos.photo[Math.round(Math.random() * 10)].url_l
-            })
+            (data) => {
+                let photo = data.photos.photo[Math.round(Math.random() * 10)];
+                if ("url_l" in photo) {
+                    this.setState({
+                        imageUrl: data.photos.photo[Math.round(Math.random() * 10)].url_l
+                    });
+                } else {
+                    this.getRandomArtwork();
+                }
+            }
         );
     }
 
