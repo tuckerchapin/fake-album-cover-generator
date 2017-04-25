@@ -12,19 +12,20 @@ class App extends Component {
             title: "",
             imageUrl: "",
             imageUrlSquare: "",
+            length: this.getRandomTwoDigit(35, 122) + ":" + this.getRandomTwoDigit(0, 59),
         };
 
         this.getEverything();
     }
 
-    getRandomDateInLastMonth() {
+    getRandomDate() {
         let today = Moment();
-        let oneMonthAgo = Moment().subtract(1, 'months');
+        let oneMonthAgo = Moment().subtract(2, 'years');
         return Moment(new Date(oneMonthAgo + Math.random() * (today - oneMonthAgo))).format('YYYY-MM-DD');
     }
 
     getRandomTwoDigit(min, max) {
-        let str = "0000" + (Math.round(Math.random() * 100) % (max || 1) + min).toString();
+        let str = "0000" + (Math.floor(Math.random() * (max - min + 1)) + min).toString();
         return str.substr(str.length - 2);
     }
 
@@ -52,7 +53,7 @@ class App extends Component {
                     counter++;
                 }
 
-                titleToSet = titleToSet.replace(/([.;?!*([])\s*/g, "|").split("|")[0].replace(/['"]+/g, '');//.toLowerCase();
+                titleToSet = titleToSet.replace(/([.;?!*([])\s*/g, "|").split("|")[0].replace(/["]+/g, '');//.toLowerCase();
                 let numWords = titleToSet.split(" ").length;
 
                 if (titleToSet === "" || numWords < 1 || numWords > 15) {
@@ -65,7 +66,7 @@ class App extends Component {
     }
 
     getRandomArtwork() {
-        let url = "https://api.flickr.com/services/rest/?method=flickr.interestingness.getList&api_key=9d125f270ce02fcb7b1ebf033e981ea9&date=" + this.getRandomDateInLastMonth() + "&extras=url_l,url_q&per_page=10&format=json&nojsoncallback=1";
+        let url = "https://api.flickr.com/services/rest/?method=flickr.interestingness.getList&api_key=9d125f270ce02fcb7b1ebf033e981ea9&date=" + this.getRandomDate() + "&extras=url_l,url_q&per_page=10&format=json&nojsoncallback=1";
         $.getJSON(
             url,
             (data) => {
@@ -91,6 +92,7 @@ class App extends Component {
         this.getRandomArtist();
         this.getRandomTitle();
         this.getRandomArtwork();
+        this.setState({length: this.getRandomTwoDigit(35, 122) + ":" + this.getRandomTwoDigit(0, 59)});
     }
 
     isLoading() {
@@ -159,7 +161,7 @@ class App extends Component {
                         <br/>
                         <div style={{maxWidth: '528px'}}>
                             <span className='label'>Length: </span>
-                            <span className='info-text'>{this.getRandomTwoDigit(35, 122)}:{this.getRandomTwoDigit(0, 59)}</span>
+                            <span className='info-text'>{this.state.length}</span>
                         </div>
                         <br/>
                         <div>
