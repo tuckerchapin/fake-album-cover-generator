@@ -16,7 +16,9 @@ class App extends Component {
         };
 
         this.askingForArtwork = false;
+    }
 
+    componentDidMount() {
         this.getEverything();
     }
 
@@ -27,7 +29,11 @@ class App extends Component {
     }
 
     getRandomTwoDigit(min, max) {
-        let str = "0000" + (Math.floor(Math.random() * (max - min + 1)) + min).toString();
+        let str = (Math.floor(Math.random() * (max - min + 1)) + min).toString();
+        if (str.length == 3) {
+            return str;
+        }
+        str = "0000" + str;
         return str.substr(str.length - 2);
     }
 
@@ -35,7 +41,7 @@ class App extends Component {
         $.getJSON(
             "https://en.wikipedia.org/w/api.php?action=query&generator=random&grnnamespace=0&format=json&origin=*",
             (data) => this.setState({
-                artist: Object.values(data.query.pages)[0].title.replace(/([([])\s*/g, "|").split("|")[0]
+                artist: Object.values(data.query.pages)[0].title.replace(/([([])\s*/g, "|").split("|")[0].split(",")[0]
             })
         );
     }
@@ -73,11 +79,10 @@ class App extends Component {
         }
         this.askingForArtwork = true;
 
-        let url = "https://api.flickr.com/services/rest/?method=flickr.interestingness.getList&api_key=9d125f270ce02fcb7b1ebf033e981ea9&date=" + this.getRandomDate() + "&extras=url_l,url_q&per_page=10&format=json&nojsoncallback=1";
+        let url = "https://api.flickr.com/services/rest/?method=flickr.interestingness.getList&api_key=88d0928a8bfc1a485d479f4f120b28cf&date=" + this.getRandomDate() + "&extras=url_l,url_q&per_page=10&format=json&nojsoncallback=1";
         $.getJSON(
             url,
-            (data) => {
-                this.askingForArtwork = false;
+            (data, err) => {
                 if (data.photos) {
                     let photo = data.photos.photo[Math.round(Math.random() * 10)];
                     if (photo && "url_l" in photo && "url_q" in photo) {
@@ -129,6 +134,7 @@ class App extends Component {
                 </div>
             );
         }
+
         return (
             <div>
                 <div
@@ -148,6 +154,7 @@ class App extends Component {
                         }}
                         src={this.state.imageUrlSquare}
                         alt=""
+                        onLoad={() => {this.askingForArtwork = false;}}
                     />
                     <div
                         style={{
