@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import $ from 'jquery';
 import Moment from 'moment';
+import values from 'object.values';
 import './App.css';
 
 class App extends Component {
@@ -30,7 +31,7 @@ class App extends Component {
 
     getRandomTwoDigit(min, max) {
         let str = (Math.floor(Math.random() * (max - min + 1)) + min).toString();
-        if (str.length == 3) {
+        if (str.length === 3) {
             return str;
         }
         str = "0000" + str;
@@ -41,7 +42,7 @@ class App extends Component {
         $.getJSON(
             "https://en.wikipedia.org/w/api.php?action=query&generator=random&grnnamespace=0&format=json&origin=*",
             (data) => this.setState({
-                artist: Object.values(data.query.pages)[0].title.replace(/([([])\s*/g, "|").split("|")[0].split(",")[0]
+                artist: values(data.query.pages)[0].title.replace(/([([])\s*/g, "|").split("|")[0].split(",")[0]
             })
         );
     }
@@ -51,7 +52,7 @@ class App extends Component {
             "https://en.wikiquote.org/w/api.php?action=query&prop=extracts&generator=random&grnnamespace=0&format=json&origin=*",
             (data) => {
                 let titleToSet = "";
-                let parsedHTML = $.parseHTML(Object.values(data.query.pages)[0].extract);
+                let parsedHTML = $.parseHTML(values(data.query.pages)[0].extract);
                 let counter = 0;
                 while (counter < parsedHTML.length) {
                     if (parsedHTML[counter].nodeName === "UL") {

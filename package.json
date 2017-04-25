@@ -6,6 +6,7 @@
     "jquery": "^3.2.1",
     "mdi": "^1.9.33",
     "moment": "^2.18.1",
+    "object.values": "^1.0.4",
     "random-google-font": "^0.1.2",
     "react": "^15.5.4",
     "react-dom": "^15.5.4"
