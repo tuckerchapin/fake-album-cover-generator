@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import $ from 'jquery';
 import Moment from 'moment';
-import Font from 'random-google-font';
+// import Font from 'random-google-font';
 import './App.css';
 
 class App extends Component {
@@ -49,10 +49,13 @@ class App extends Component {
                     counter++;
                 }
 
-                if (titleToSet === "") {
+                titleToSet = titleToSet.replace(/([.;?!([])\s*/g, "|").split("|")[0].replace(/['"]+/g, '');
+                let numWords = titleToSet.split(" ").length;
+                
+                if (titleToSet === "" || numWords < 1 || numWords > 15) {
                     this.getRandomTitle();
                 } else {
-                    this.setState({title: titleToSet});
+                    this.setState({title: titleToSet.toLowerCase()});
                 }
             }
         );
@@ -79,15 +82,15 @@ class App extends Component {
         );
     }
 
-    getRandomFont() {
-        Font.get({}, (error, result) => {
-            if (!error) {
-                this.setState({fontUrl: result[0].url.ttf, fontFamily: result[0].local[0]});
-            } else {
-                this.getRandomFont();
-            }
-        });
-    }
+    // getRandomFont() {
+    //     Font.get({}, (error, result) => {
+    //         if (!error) {
+    //             this.setState({fontUrl: result[0].url.ttf, fontFamily: result[0].local[0]});
+    //         } else {
+    //             this.getRandomFont();
+    //         }
+    //     });
+    // }
 
     getEverything() {
         this.getRandomArtist();
