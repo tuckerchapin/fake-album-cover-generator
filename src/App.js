@@ -72,7 +72,6 @@ class App extends Component {
                 if (data.photos) {
                     let photo = data.photos.photo[Math.round(Math.random() * 10)];
                     if (photo && "url_l" in photo && "url_q" in photo) {
-                        console.log(photo);
                         this.setState({
                             imageUrl: photo.url_l,
                             imageUrlSquare: photo.url_q,
@@ -133,6 +132,8 @@ class App extends Component {
                 >
                     <img
                         style={{
+                            height: '150px',
+                            width: '150px',
                             verticalAlign: 'middle',
                         }}
                         src={this.state.imageUrlSquare}
