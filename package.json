@@ -23,12 +23,5 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
-  "gh-pages": {
-    "cname": "fakealbumart.com" 
-  },
-  "gh-pages-deploy": {
-    "cname": "fakealbumart.com"
-  },
   "homepage": "http://fakealbumart.com",
-  "cname": "fakealbumart.com"
 }
