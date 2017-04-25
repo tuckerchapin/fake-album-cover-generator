@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import $ from 'jquery';
 import Moment from 'moment';
-// import Font from 'random-google-font';
 import './App.css';
 
 class App extends Component {
@@ -12,8 +11,6 @@ class App extends Component {
             artist: "",
             title: "",
             imageUrl: "",
-            fontUrl: "",
-            fontFamily: "",
         };
 
         this.getEverything();
@@ -51,7 +48,7 @@ class App extends Component {
 
                 titleToSet = titleToSet.replace(/([.;?!([])\s*/g, "|").split("|")[0].replace(/['"]+/g, '');
                 let numWords = titleToSet.split(" ").length;
-                
+
                 if (titleToSet === "" || numWords < 1 || numWords > 15) {
                     this.getRandomTitle();
                 } else {
@@ -82,28 +79,16 @@ class App extends Component {
         );
     }
 
-    // getRandomFont() {
-    //     Font.get({}, (error, result) => {
-    //         if (!error) {
-    //             this.setState({fontUrl: result[0].url.ttf, fontFamily: result[0].local[0]});
-    //         } else {
-    //             this.getRandomFont();
-    //         }
-    //     });
-    // }
-
     getEverything() {
         this.getRandomArtist();
         this.getRandomTitle();
         this.getRandomArtwork();
-        // this.getRandomFont();
     }
 
     isLoading() {
         if (this.state.artist !== ""
             && this.state.title !== ""
             && this.state.imageUrl !== ""
-            // && this.state.fontUrl !== ""
         ) {
             return false;
         }
