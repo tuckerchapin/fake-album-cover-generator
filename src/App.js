@@ -12,12 +12,14 @@ class App extends Component {
             artist: "",
             title: "",
             imageUrl: "",
+            fontUrl: "",
+            fontFamily: "",
         };
 
         this.getEverything();
     }
 
-    randomDateInLastMonth() {
+    getRandomDateInLastMonth() {
         let today = Moment();
         let oneMonthAgo = Moment().subtract(1, 'months');
         return Moment(new Date(oneMonthAgo + Math.random() * (today - oneMonthAgo))).format('YYYY-MM-DD');
@@ -57,15 +59,19 @@ class App extends Component {
     }
 
     getRandomArtwork() {
-        let url = "https://api.flickr.com/services/rest/?method=flickr.interestingness.getList&api_key=9d125f270ce02fcb7b1ebf033e981ea9&date=" + this.randomDateInLastMonth() + "&extras=url_l&per_page=10&format=json&nojsoncallback=1";
+        let url = "https://api.flickr.com/services/rest/?method=flickr.interestingness.getList&api_key=9d125f270ce02fcb7b1ebf033e981ea9&date=" + this.getRandomDateInLastMonth() + "&extras=url_l&per_page=10&format=json&nojsoncallback=1";
         $.getJSON(
             url,
             (data) => {
-                let photo = data.photos.photo[Math.round(Math.random() * 10)];
-                if ("url_l" in photo) {
-                    this.setState({
-                        imageUrl: data.photos.photo[Math.round(Math.random() * 10)].url_l
-                    });
+                if (data.photos) {
+                    let photo = data.photos.photo[Math.round(Math.random() * 10)];
+                    if (photo && "url_l" in photo) {
+                        this.setState({
+                            imageUrl: data.photos.photo[Math.round(Math.random() * 10)].url_l
+                        });
+                    } else {
+                        this.getRandomArtwork();
+                    }
                 } else {
                     this.getRandomArtwork();
                 }
@@ -73,14 +79,29 @@ class App extends Component {
         );
     }
 
+    getRandomFont() {
+        Font.get({}, (error, result) => {
+            if (!error) {
+                this.setState({fontUrl: result[0].url.ttf, fontFamily: result[0].local[0]});
+            } else {
+                this.getRandomFont();
+            }
+        });
+    }
+
     getEverything() {
         this.getRandomArtist();
         this.getRandomTitle();
         this.getRandomArtwork();
+        // this.getRandomFont();
     }
 
     isLoading() {
-        if (this.state.artist !== "" && this.state.title !== "" && this.state.imageUrl !== "") {
+        if (this.state.artist !== ""
+            && this.state.title !== ""
+            && this.state.imageUrl !== ""
+            // && this.state.fontUrl !== ""
+        ) {
             return false;
         }
         return true;
@@ -96,14 +117,15 @@ class App extends Component {
                 </div>
             );
         }
-
         return (
             <div className="App">
                 Your artist:
-                <br/> {this.state.artist}
+                <br/>
+                    <span>{this.state.artist}</span>
                 <br/>
                 Your title:
-                <br/> {this.state.title}
+                <br/>
+                    <span>{this.state.title}</span>
                 <br/>
                 Your artwork:
                 <br/>
