@@ -23,5 +23,5 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
-  "homepage": "https://tuckerchapin.github.io/fake-album-cover-generator"
+  "homepage": "http://fakealbumart.com"
 }
