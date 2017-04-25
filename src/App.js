@@ -77,6 +77,7 @@ class App extends Component {
         $.getJSON(
             url,
             (data) => {
+                this.askingForArtwork = false;
                 if (data.photos) {
                     let photo = data.photos.photo[Math.round(Math.random() * 10)];
                     if (photo && "url_l" in photo && "url_q" in photo) {
@@ -85,7 +86,6 @@ class App extends Component {
                             imageUrlSquare: photo.url_q,
                             imageDims: "[" + photo.width_l + "x" + photo.height_l + "]"
                         });
-                        this.askingForArtwork = false;
                     } else {
                         this.getRandomArtwork();
                     }
