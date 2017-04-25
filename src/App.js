@@ -147,23 +147,24 @@ class App extends Component {
                             marginLeft: '2em',
                         }}
                     >
-                        <div>
+                        <div style={{maxWidth: '528px'}}>
                             <span className='label'>Artist: </span>
                             <span className='info-text'>{this.state.artist}</span>
                         </div>
                         <br/>
-                        <div>
+                        <div style={{maxWidth: '528px'}}>
                             <span className='label'>Album: </span>
                             <span className='info-text'>{this.state.title}</span>
                         </div>
                         <br/>
-                        <div>
+                        <div style={{maxWidth: '528px'}}>
                             <span className='label'>Length: </span>
-                            <span className='info-text'>{this.getRandomTwoDigit(35)}:{this.getRandomTwoDigit(0, 59)}</span>
+                            <span className='info-text'>{this.getRandomTwoDigit(35, 122)}:{this.getRandomTwoDigit(0, 59)}</span>
                         </div>
                         <br/>
                         <div>
                             <span className='label reroll'>reroll:
+                                <span className='info-text' onClick={() => this.getEverything()}> all </span>|
                                 <span className='info-text' onClick={() => this.getRandomArtist()}> artist </span>|
                                 <span className='info-text' onClick={() => this.getRandomTitle()}> album </span>|
                                 <span className='info-text' onClick={() => this.getRandomArtwork()}> artwork </span>
