@@ -1,0 +1,39 @@
+.label {
+    font-family: 'Helvetica Neue', sans-serif;
+    font-weight: 200;
+    color: #808080;
+}
+
+.info-text {
+    font-family: 'Helvetica Neue', sans-serif;
+    font-weight: 500;
+}
+
+.download {
+    font-family: 'Helvetica Neue', sans-serif;
+    font-weight: 200;
+    color: #808080;
+    width: 150px;
+    font-size: 10pt;
+    text-align: center;
+    margin-top: .5em;
+    text-decoration: none;
+    pointer-events: auto;
+}
+
+.reroll {
+    /*display: inline-block;
+    padding: 10px;
+    color: #808080;
+    font-family: 'Helvetica Neue', sans-serif;
+    font-weight: 200;*/
+    font-size: 12pt;
+    /*font-style: italic;
+    vertical-align: middle;
+    height: 12pt;*/
+}
+
+.reroll > .info-text {
+    cursor: pointer;
+    pointer-events: auto;
+}

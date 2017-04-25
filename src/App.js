@@ -1,18 +1,7 @@
 import React, {Component} from 'react';
 import $ from 'jquery';
 import Moment from 'moment';
-
-const styles = {
-    label: {
-        fontFamily: 'Helvetica Neue',
-        fontWeight: '200',
-        color: '#808080'
-    },
-    text: {
-        fontFamily: 'Helvetica Neue',
-        fontWeight: '600',
-    }
-}
+import './App.css';
 
 class App extends Component {
     constructor(props) {
@@ -34,9 +23,9 @@ class App extends Component {
         return Moment(new Date(oneMonthAgo + Math.random() * (today - oneMonthAgo))).format('YYYY-MM-DD');
     }
 
-    getRandomTwoDigit() {
-        let s = "00" + Math.round(Math.random() * 100);
-        return s.substr(2);
+    getRandomTwoDigit(min, max) {
+        let str = "0000" + (Math.round(Math.random() * 100) % (max || 1) + min).toString();
+        return str.substr(str.length - 2);
     }
 
     getRandomArtist() {
@@ -63,13 +52,13 @@ class App extends Component {
                     counter++;
                 }
 
-                titleToSet = titleToSet.replace(/([.;?!([])\s*/g, "|").split("|")[0].replace(/['"]+/g, '');
+                titleToSet = titleToSet.replace(/([.;?!*([])\s*/g, "|").split("|")[0].replace(/['"]+/g, '');//.toLowerCase();
                 let numWords = titleToSet.split(" ").length;
 
                 if (titleToSet === "" || numWords < 1 || numWords > 15) {
                     this.getRandomTitle();
                 } else {
-                    this.setState({title: titleToSet.toLowerCase()});
+                    this.setState({title: titleToSet});
                 }
             }
         );
@@ -83,10 +72,11 @@ class App extends Component {
                 if (data.photos) {
                     let photo = data.photos.photo[Math.round(Math.random() * 10)];
                     if (photo && "url_l" in photo && "url_q" in photo) {
+                        console.log(photo);
                         this.setState({
                             imageUrl: photo.url_l,
                             imageUrlSquare: photo.url_q,
-
+                            imageDims: "[" + photo.width_l + "x" + photo.height_l + "]"
                         });
                     } else {
                         this.getRandomArtwork();
@@ -122,7 +112,7 @@ class App extends Component {
                         position: 'fixed',
                         top: '50%',
                         left: '50%',
-                        webkitTransform: 'translate(-50%, -50%)',
+                        WebkitTransform: 'translate(-50%, -50%)',
                         transform: 'translate(-50%, -50%)',
                     }}
                 >
@@ -131,43 +121,57 @@ class App extends Component {
             );
         }
         return (
-            <div
-                style={{
-                    position: 'fixed',
-                    top: '50%',
-                    left: '50%',
-                    WebkitTransform: 'translate(-50%, -50%)',
-                    transform: 'translate(-50%, -50%)',
-                }}
-            >
-                <img
-                    style={{
-                        verticalAlign: 'middle',
-                    }}
-                    src={this.state.imageUrlSquare}
-                    alt=""
-                />
+            <div>
                 <div
                     style={{
-                        display: 'inline-block',
-                        textAlign: 'left',
-                        verticalAlign: 'middle',
-                        marginLeft: '2em',
+                        position: 'fixed',
+                        top: '50%',
+                        left: '50%',
+                        WebkitTransform: 'translate(-50%, -50%)',
+                        transform: 'translate(-50%, -50%)',
                     }}
                 >
-                    <div>
-                        <span style={styles.label}>Artist: </span>
-                        <span style={styles.text}>{this.state.artist}</span>
+                    <img
+                        style={{
+                            verticalAlign: 'middle',
+                        }}
+                        src={this.state.imageUrlSquare}
+                        alt=""
+                    />
+                    <div
+                        style={{
+                            display: 'inline-block',
+                            textAlign: 'left',
+                            verticalAlign: 'middle',
+                            marginLeft: '2em',
+                        }}
+                    >
+                        <div>
+                            <span className='label'>Artist: </span>
+                            <span className='info-text'>{this.state.artist}</span>
+                        </div>
+                        <br/>
+                        <div>
+                            <span className='label'>Album: </span>
+                            <span className='info-text'>{this.state.title}</span>
+                        </div>
+                        <br/>
+                        <div>
+                            <span className='label'>Length: </span>
+                            <span className='info-text'>{this.getRandomTwoDigit(35)}:{this.getRandomTwoDigit(0, 59)}</span>
+                        </div>
+                        <br/>
+                        <div>
+                            <span className='label reroll'>reroll:
+                                <span className='info-text' onClick={() => this.getRandomArtist()}> artist </span>|
+                                <span className='info-text' onClick={() => this.getRandomTitle()}> album </span>|
+                                <span className='info-text' onClick={() => this.getRandomArtwork()}> artwork </span>
+                            </span>
+                        </div>
                     </div>
-                    <br/>
-                    <div>
-                        <span style={styles.label}>Album: </span>
-                        <span style={styles.text}>{this.state.title}</span>
-                    </div>
-                    <br/>
-                    <div>
-                        <span style={styles.label}>Length: </span>
-                        <span style={styles.text}>{this.getRandomTwoDigit()}:{this.getRandomTwoDigit()}</span>
+
+                    <div className='download'>
+                        <a className='download' href={this.state.imageUrl} download="proposed_file_name" target="_blank">download {this.state.imageDims}</a>
                     </div>
                 </div>
             </div>
