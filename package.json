@@ -9,7 +9,8 @@
     "object.values": "^1.0.4",
     "random-google-font": "^0.1.2",
     "react": "^15.5.4",
-    "react-dom": "^15.5.4"
+    "react-dom": "^15.5.4",
+    "react-hover-observer": "^1.1.1"
   },
   "devDependencies": {
     "gh-pages": "^0.12.0",
