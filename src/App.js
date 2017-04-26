@@ -4,6 +4,7 @@ import Artwork from './Artwork';
 import AlbumTitle from './AlbumTitle';
 import ArtistName from './ArtistName';
 import FormattedAttribute from './FormattedAttribute';
+import SaveButton from './SaveButton';
 
 const styles = {
     container: {
@@ -61,20 +62,23 @@ export default class App extends Component {
 
     render() {
         return (
-            <div style={styles.container}>
-                <Artwork />
-                <div style={styles.infoContainer}>
-                    <a style={styles.aligner}>aligner</a>
-                    <ArtistName />
-                    <br/>
-                    <AlbumTitle />
-                    <br/>
-                    <FormattedAttribute
-                        label="Length: "
-                        text={this.state.length}
-                        onClick={() => this.getRandomLength()}
-                    />
+            <div>
+                <div style={styles.container}>
+                    <Artwork />
+                    <div style={styles.infoContainer}>
+                        <a style={styles.aligner}>aligner</a>
+                        <ArtistName />
+                        <br/>
+                        <AlbumTitle />
+                        <br/>
+                        <FormattedAttribute
+                            label="Length: "
+                            text={this.state.length}
+                            onClick={() => this.getRandomLength()}
+                        />
+                    </div>
                 </div>
+                {/* <SaveButton /> */}
             </div>
         );
     }

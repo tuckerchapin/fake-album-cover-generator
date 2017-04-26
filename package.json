@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "dom-to-image": "^2.5.2",
     "jquery": "^3.2.1",
     "mdi": "^1.9.33",
     "moment": "^2.18.1",
