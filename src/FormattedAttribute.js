@@ -19,8 +19,8 @@ const styles = {
 export default class FormattedAttribute extends Component {
     render() {
         return (
-            <div style={styles.container} {...this.props}>
-                <span style={styles.label}>{this.props.label}</span>
+            <div style={styles.container}>
+                <span style={styles.label} {...this.props}>{this.props.label}</span>
                 <span style={styles.text}>{this.props.text}</span>
             </div>
         );

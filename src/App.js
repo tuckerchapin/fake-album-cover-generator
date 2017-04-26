@@ -41,6 +41,12 @@ export default class App extends Component {
         };
     }
 
+    getRandomLength() {
+        this.setState({
+            length: this.getRandomTwoDigit(35, 90) + ":" + this.getRandomTwoDigit(0, 59),
+        });
+    }
+
     getRandomTwoDigit(min, max) {
         let str = (Math.floor(Math.random() * (max - min + 1)) + min).toString();
         if (str.length > 1) {
@@ -54,14 +60,6 @@ export default class App extends Component {
     }
 
     render() {
-        if (this.isLoading()) {
-            return (
-                <div style={styles.container}>
-                    Loading...
-                </div>
-            );
-        }
-
         return (
             <div style={styles.container}>
                 <Artwork />
@@ -74,6 +72,7 @@ export default class App extends Component {
                     <FormattedAttribute
                         label="Length: "
                         text={this.state.length}
+                        onClick={() => this.getRandomLength()}
                     />
                 </div>
             </div>
