@@ -1,4 +1,7 @@
 import React, {Component} from 'react';
+import $ from 'jquery';
+
+import getUrlParam from './getUrlParam';
 
 const styles = {
     container: {
@@ -20,37 +23,25 @@ const styles = {
 
 export default class SourceSelector extends Component {
     componentDidMount() {
-        let source = this.getQueryVariable("src");
+        let source = getUrlParam("src");
         if (source == "imgur" || source == "flickr" || source == "random") {
             return;
         }
-        this.setSourceQuery("random");
+        this.setSourceParam("random");
     }
 
-    getQueryVariable(variable) {
-        var query = window.location.search.substring(1);
-        var vars = query.split('&');
-        for (var i = 0; i < vars.length; i++) {
-            var pair = vars[i].split('=');
-            if (decodeURIComponent(pair[0]) == variable) {
-                return decodeURIComponent(pair[1]);
-            }
-        }
-        return;
-    }
-
-    setSourceQuery(source) {
-        window.location.search = "?src=" + source;
+    setSourceParam(source) {
+        history.pushState("", source, "?src=" + source);
     }
 
     render() {
         return (
             <div style={styles.container}>
-                <span style={styles.link} onClick={() => this.setSourceQuery('random')}>random </span>
+                <span style={styles.link} onClick={() => this.setSourceParam('random')}>random </span>
                 |
-                <span style={styles.link} onClick={() => this.setSourceQuery('flickr')}> flickr </span>
+                <span style={styles.link} onClick={() => this.setSourceParam('flickr')}> flickr </span>
                 |
-                <span style={styles.link} onClick={() => this.setSourceQuery('imgur')}> imgur</span>
+                <span style={styles.link} onClick={() => this.setSourceParam('imgur')}> imgur</span>
             </div>
         );
     }

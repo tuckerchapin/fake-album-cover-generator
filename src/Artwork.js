@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import $ from 'jquery';
 import Moment from 'moment';
 
+import getUrlParam from './getUrlParam';
+
 const styles = {
     container: {
         textAlign: 'center',
@@ -44,24 +46,8 @@ export default class App extends Component {
         this.getArtwork();
     }
 
-    getQueryVariable(variable) {
-        var query = window.location.search.substring(1);
-        var vars = query.split('&');
-        for (var i = 0; i < vars.length; i++) {
-            var pair = vars[i].split('=');
-            if (decodeURIComponent(pair[0]) == variable) {
-                return decodeURIComponent(pair[1]);
-            }
-        }
-        return;
-    }
-
-    getQuerySource() {
-        return this.getQueryVariable("src");
-    }
-
     getArtwork() {
-        let source = this.getQuerySource();
+        let source = getUrlParam("src");
         if (source == "imgur") {
             this.getImgurArtwork();
         } else if (source == "flickr") {
@@ -93,7 +79,6 @@ export default class App extends Component {
 
         this.isGettingImage = true;
         this.setState({isLoading: true});
-        console.log("Using Imgur source.");
 
         $.ajax({
             url : "https://api.imgur.com/3/gallery/random/random/",
@@ -130,7 +115,6 @@ export default class App extends Component {
 
         this.isGettingImage = true;
         this.setState({isLoading: true});
-        console.log("Using Flickr source.");
 
         let url = "https://api.flickr.com/services/rest/?method=flickr.interestingness.getList&api_key=88d0928a8bfc1a485d479f4f120b28cf&date=" + this.getRandomDate() + "&extras=url_l,url_q,url_o&per_page=10&format=json&nojsoncallback=1";
         $.getJSON(
