@@ -56,10 +56,6 @@ export default class App extends Component {
         return "0" + str;
     }
 
-    isLoading() {
-        return false;
-    }
-
     render() {
         return (
             <div>
