@@ -14,7 +14,6 @@ const styles = {
         height: 'auto',
         color: '#808080',
         fontFamily: 'Helvetica Neue, sans-serif',
-        fontWeight: '200',
     },
     link: {
         cursor: 'pointer',
@@ -22,26 +21,52 @@ const styles = {
 }
 
 export default class SourceSelector extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {};
+    }
+
     componentDidMount() {
         let source = getUrlParam("src");
         if (source == "imgur" || source == "flickr" || source == "random") {
-            return;
+            this.setState({source: source});
+        } else {
+            this.setSourceParam("random");
         }
-        this.setSourceParam("random");
     }
 
     setSourceParam(source) {
         history.pushState("", source, "?src=" + source);
+        this.setState({source: source});
     }
 
     render() {
         return (
             <div style={styles.container}>
-                <span style={styles.link} onClick={() => this.setSourceParam('random')}>random </span>
+                <span
+                    style={{
+                        cursor: 'pointer',
+                        fontWeight: (this.state.source == 'random' ? '400' : '200')
+                    }}
+                    onClick={() => this.setSourceParam('random')}
+                >random </span>
                 |
-                <span style={styles.link} onClick={() => this.setSourceParam('flickr')}> flickr </span>
+                <span
+                    style={{
+                        cursor: 'pointer',
+                        fontWeight: (this.state.source == 'flickr' ? '400' : '200')
+                    }}
+                    onClick={() => this.setSourceParam('flickr')}
+                > flickr </span>
                 |
-                <span style={styles.link} onClick={() => this.setSourceParam('imgur')}> imgur</span>
+                <span
+                    style={{
+                        cursor: 'pointer',
+                        fontWeight: (this.state.source == 'imgur' ? '400' : '200')
+                    }}
+                    onClick={() => this.setSourceParam('imgur')}
+                > imgur</span>
             </div>
         );
     }
