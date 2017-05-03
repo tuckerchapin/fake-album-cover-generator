@@ -7,9 +7,9 @@ const styles = {
     container: {
         position: 'absolute',
         top: '90%',
-        left: window.innerWidth / 2 - 75,
+        left: window.innerWidth / 2 - 150,
         opacity: '.5',
-        width: '150px',
+        width: '300px',
         textAlign: 'center',
         height: 'auto',
         color: '#808080',
