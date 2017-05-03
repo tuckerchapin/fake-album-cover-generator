@@ -5,6 +5,7 @@ import AlbumTitle from './AlbumTitle';
 import ArtistName from './ArtistName';
 import FormattedAttribute from './FormattedAttribute';
 import SaveButton from './SaveButton';
+import SourceSelector from './SourceSelector';
 
 const styles = {
     container: {
@@ -75,6 +76,7 @@ export default class App extends Component {
                     </div>
                 </div>
                 {/* <SaveButton /> */}
+                <SourceSelector/>
             </div>
         );
     }
